@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Love Lessons</title>
+    <!-- <link rel="stylesheet" href="style.css"/> -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(120deg, #fff0f5 60%, #ffe0e9 100%);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(90deg, #ffb6c1, #ff69b4);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar .logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #fff;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 8px #ff69b4;
+        }
+        .navbar input[type="search"] {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            width: 220px;
+            font-size: 1rem;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(255,182,193,0.15);
+            transition: width 0.3s;
+        }
+        .navbar input[type="search"]:focus {
+            width: 300px;
+        }
+        .drawer-toggle {
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .drawer-toggle:hover {
+            color: #ff69b4;
+        }
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: -270px;
+            width: 270px;
+            height: 100%;
+            background: #333;
+            box-shadow: 2px 0 16px rgba(0,0,0,0.15);
+            padding: 2.5rem 1.5rem 1rem 1.5rem;
+            transition: left 0.3s cubic-bezier(.68,-0.55,.27,1.55);
+            z-index: 1100;
+        }
+        .drawer.open {
+            left: 0;
+        }
+        .drawer h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: #ff69b4;
+            text-align: center;
+        }
+        .drawer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .drawer ul li {
+            padding: 1rem 0;
+            font-size: 1.15rem;
+            cursor: pointer;
+            border-bottom: 1px solid #ffe0e9;
+            color: #ff69b4;
+            transition: background 0.2s, color 0.2s;
+        }
+        .drawer ul li:hover {
+            background: #ffe0e9;
+            color: #d72660;
+        }
+        .app-header {
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem 1rem;
+            background: linear-gradient(120deg, #ff9a9e 60%, #fad0c4 100%);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .app-header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.2rem;
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 10px #ffb6c1;
+        }
+        .app-header p {
+            margin: 5px 0px;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 2rem;
+            padding: 2.5rem 2rem 2rem 2rem;
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .video-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(255,182,193,0.13);
+            text-align: center;
+            padding: 1.2rem 1rem 1.5rem 1rem;
+            transition: transform 0.18s, box-shadow 0.18s;
+            position: relative;
+        }
+        .video-card:hover {
+            transform: translateY(-6px) scale(1.025);
+            box-shadow: 0 8px 24px rgba(255,105,180,0.18);
+        }
+        .video-card video {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 0.7rem;
+            background: #ffe0e9;
+        }
+        .video-card p {
+            margin: 0.5rem 0 0;
+            font-weight: bold;
+            color: #d72660;
+            font-size: 1.08rem;
+            letter-spacing: 0.5px;
+        }
+        .app-footer {
+            text-align: center;
+            padding: 1.2rem 0;
+            background: #ffe0e9;
+            font-size: 1rem;
+            color: #a5557c;
+            letter-spacing: 1px;
+            margin-top: auto;
+            box-shadow: 0 -2px 8px rgba(255,182,193,0.08);
+        }
+        @media (max-width: 600px) {
+            .navbar input[type="search"] {
+                width: 120px;
+            }
+            .navbar input[type="search"]:focus {
+                width: 180px;
+            }
+            .video-gallery {
+                padding: 1rem 0.5rem;
+                gap: 1rem;
+            }
+            .drawer {
+                width: 90vw;
+                left: -90vw;
+            }
+            .drawer.open {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="drawer" id="drawer" aria-label="Sidebar navigation">
+        <h2>💖 Love Lessons</h2>
+        <ul>
+            <li onclick="filterVideos('Thailand')">ကိုးရီးယား</li>
+            <li onclick="filterVideos('japan')">ဂျပန်</li>
+            <li onclick="filterVideos('myanmar')">မြန်မာ</li>
+            <li onclick="filterVideos('china')">တရုတ်</li>
+            <li onclick="filterVideos('india')">အိန္ဒိယ</li>
+            <li onclick="filterVideos('all')"><b>All</b></li>
+            <li><a href="https://lovestoriesinasia.blogspot.com/?m=1" style="color: #fff0f5;">အပြာစာပေများကို ဖတ်ရန်...</a></li>
+        </ul>
+         <footer class="app-footer">
+        <p>
+            &copy; 2025 <span style="font-family:'Great Vibes',cursive;color:#ff69b4;">Love Lessons</span>.
+            All rights reserved.<br>
+            Made with <span style="color:#ff69b4;">&#10084;&#65039;</span> by <b>Mr.Alim</b>
+        </p>
+    </footer>
+    </div>
+    <nav class="navbar">
+        <button class="drawer-toggle" onclick="toggleDrawer()" aria-label="Open sidebar">☰</button>
+        <span class="logo">Love 💖</span>
+        <input type="search" id="search" placeholder="Search video..." oninput="searchVideos(this.value)" aria-label="Search videos" />
+    </nav>
+    <header class="app-header">
+        <h1>💖 Love Lessons</h1>
+        <p>Romantic Video Lessons</p>
+    </header>
+    <div>
+
+    </div>
+    <main class="video-gallery" id="videoGallery">
+        <!-- Sample 7 videos with category data -->
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video1.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 01 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video2.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 02 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video5.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 03 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video6.mp4" controls style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 04 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video9.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 05 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video3.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 06 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video7.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 07 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video8.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 08 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="Thailand">
+            <video src="images/tai/Video9.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
+            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+                Lesson 09 (Thailand)
+                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+            </p>
+        </article>
+        <article class="video-card" data-category="india">
+            <video src="images/PinYinDay13(zhchshr).mp4" controls></video>
+            <p>Lesson 06 (India)</p>
+        </article>
+        <article class="video-card" data-category="india">
+            <video src="images/PinyinDay9(n l).mp4" controls></video>
+            <p>Lesson 07 (India)</p>
+        </article>
+    </main>
+    <footer class="app-footer">
+        <p>
+            &copy; 2025 <span style="font-family:'Great Vibes',cursive;color:#ff69b4;">Love Lessons</span>.
+            All rights reserved.<br>
+            Made with <span style="color:#ff69b4;">&#10084;&#65039;</span> by <b>Mr.Alim</b>
+        </p>
+    </footer>
+    <script>
+        
+    // --- Ad Integration: Social Bar + Click-to-Unlock Banner ---
+    let adPlaying = false;
+    let pendingVideo = null;
+    let lastSearchQuery = '';
+
+    // Helper to show Social Bar ad, then click-to-unlock banner ad
+    function showAd({ onFinish }) {
+        adPlaying = true;
+
+        // Overlay
+        let overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = 0;
+        overlay.style.left = 0;
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = 'rgba(0,0,0,0.85)';
+        overlay.style.zIndex = 9999;
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.flexDirection = 'column';
+
+        // Ad container
+        let adBox = document.createElement('div');
+        adBox.style.background = '#fff';
+        adBox.style.borderRadius = '12px';
+        adBox.style.boxShadow = '0 4px 32px rgba(0,0,0,0.18)';
+        adBox.style.padding = '18px 10px 10px 10px';
+        adBox.style.position = 'relative';
+        adBox.style.display = 'flex';
+        adBox.style.flexDirection = 'column';
+        adBox.style.alignItems = 'center';
+        adBox.style.width = '95vw';
+        adBox.style.maxWidth = '500px';
+
+        // Close button (hidden until unlock)
+        let closeBtn = document.createElement('button');
+        closeBtn.textContent = '✕';
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '8px';
+        closeBtn.style.right = '12px';
+        closeBtn.style.background = '#ff69b4';
+        closeBtn.style.color = '#fff';
+        closeBtn.style.border = 'none';
+        closeBtn.style.borderRadius = '50%';
+        closeBtn.style.width = '22px';
+        closeBtn.style.height = '22px';
+        closeBtn.style.fontSize = '12px';
+        closeBtn.style.lineHeight = '22px';
+        closeBtn.style.textAlign = 'center';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.zIndex = 2;
+        closeBtn.style.display = 'none';
+        closeBtn.onclick = function() {
+            document.body.removeChild(overlay);
+            adPlaying = false;
+            if (typeof onFinish === 'function') onFinish();
+        };
+
+        // Step 1: Social Bar Ad
+        let socialBarInfo = document.createElement('div');
+        socialBarInfo.textContent = 'one moment please....';
+        socialBarInfo.style.fontSize = '1.1rem';
+        socialBarInfo.style.color = '#d72660';
+        socialBarInfo.style.margin = '10px 0 18px 0';
+        socialBarInfo.style.textAlign = 'center';
+
+        let socialBarScript = document.createElement('script');
+        socialBarScript.type = 'text/javascript';
+        socialBarScript.src = '//pl26827635.profitableratecpm.com/b6/91/3f/b6913fae5f6eb61f5bf8eabce9406420.js';
+
+        // Step 2: Banner Ad (click to unlock)
+        let bannerAdWrap = document.createElement('div');
+        bannerAdWrap.style.width = '468px';
+        bannerAdWrap.style.maxWidth = '95vw';
+        bannerAdWrap.style.height = '60px';
+        bannerAdWrap.style.margin = '18px auto 0 auto';
+        bannerAdWrap.style.display = 'none';
+        bannerAdWrap.style.justifyContent = 'center';
+        bannerAdWrap.style.alignItems = 'center';
+        bannerAdWrap.style.cursor = 'pointer';
+
+        // Banner ad config script
+        let bannerConfig = document.createElement('script');
+        bannerConfig.type = 'text/javascript';
+        bannerConfig.text = `
+          atOptions = {
+            'key' : '8ee0d7505c2b7481ce499a9e030d7a15',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        `;
+
+        // Banner ad script
+        let bannerScript = document.createElement('script');
+        bannerScript.type = 'text/javascript';
+        bannerScript.src = '//www.highperformanceformat.com/8ee0d7505c2b7481ce499a9e030d7a15/invoke.js';
+
+        // Unlock instruction
+        let unlockMsg = document.createElement('div');
+        unlockMsg.textContent = '👉 Continue....to..enjoy.';
+        unlockMsg.style.margin = '16px 0 0 0';
+        unlockMsg.style.fontSize = '1.1rem';
+        unlockMsg.style.color = '#d72660';
+        unlockMsg.style.display = 'none';
+        unlockMsg.style.textAlign = 'center';
+
+        // Compose modal
+        adBox.appendChild(closeBtn);
+        adBox.appendChild(socialBarInfo);
+        adBox.appendChild(bannerAdWrap);
+        adBox.appendChild(unlockMsg);
+        overlay.appendChild(adBox);
+        document.body.appendChild(overlay);
+
+        // Show Social Bar ad for 3 seconds, then show banner ad
+        setTimeout(() => {
+            socialBarInfo.textContent = 'Please wait....';
+            // Inject social bar script (will show at top/bottom of page)
+            document.body.appendChild(socialBarScript);
+
+            setTimeout(() => {
+                socialBarInfo.style.display = 'none';
+                bannerAdWrap.style.display = 'flex';
+                unlockMsg.style.display = '';
+                // Inject banner ad
+                bannerAdWrap.appendChild(bannerConfig);
+                bannerAdWrap.appendChild(bannerScript);
+
+                // Unlock on click
+                bannerAdWrap.onclick = function() {
+                    if (document.body.contains(overlay)) {
+                        document.body.removeChild(overlay);
+                    }
+                    adPlaying = false;
+                    if (typeof onFinish === 'function') onFinish();
+                };
+                // Show close button after unlock
+                bannerAdWrap.onclick = function() {
+                    if (document.body.contains(overlay)) {
+                        document.body.removeChild(overlay);
+                    }
+                    adPlaying = false;
+                    if (typeof onFinish === 'function') onFinish();
+                };
+                closeBtn.style.display = '';
+            }, 3000);
+        }, 1000);
+    }
+
+    // --- Drawer open/close ---
+    function toggleDrawer() {
+        document.getElementById('drawer').classList.toggle('open');
+    }
+
+    // --- Filter by category ---
+    function filterVideosOriginal(category) {
+        const cards = document.querySelectorAll('.video-card');
+        cards.forEach(card => {
+            if (category === 'all') {
+                card.style.display = 'block';
+            } else {
+                card.style.display = card.dataset.category === category ? 'block' : 'none';
+            }
+        });
+        toggleDrawer();
+        document.getElementById('search').value = '';
+        lastSearchQuery = '';
+    }
+
+    // --- Search by title ---
+    function searchVideosOriginal(query) {
+        const cards = document.querySelectorAll('.video-card');
+        const q = query.trim().toLowerCase();
+        cards.forEach(card => {
+            const title = card.textContent.toLowerCase();
+            card.style.display = title.includes(q) ? 'block' : 'none';
+        });
+        lastSearchQuery = query.trim();
+    }
+
+    // --- Close drawer on outside click ---
+    document.addEventListener('click', function(e) {
+        const drawer = document.getElementById('drawer');
+        if (drawer.classList.contains('open')) {
+            if (!drawer.contains(e.target) && !e.target.classList.contains('drawer-toggle')) {
+                drawer.classList.remove('open');
+            }
+        }
+    });
+
+    // --- Keyboard accessibility for drawer ---
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.getElementById('drawer').classList.remove('open');
+        }
+    });
+
+    // --- Only one video plays at a time, with pre-roll ad ---
+    document.addEventListener('DOMContentLoaded', function() {
+        const videos = document.querySelectorAll('.video-card video');
+        videos.forEach(video => {
+            // Prevent direct play
+            video.addEventListener('play', function onPlay(e) {
+                // If ad is already playing, block
+                if (adPlaying) {
+                    video.pause();
+                    return;
+                }
+                // If lastSearchQuery is not empty, skip ad gating
+                if (lastSearchQuery && lastSearchQuery.trim() !== '') {
+                    // Pause all other videos
+                    videos.forEach(v => {
+                        if (v !== video) v.pause();
+                    });
+                    return;
+                }
+                // Only show ad gating if not already shown for this video
+                if (!video.dataset.adshown) {
+                    e.preventDefault();
+                    video.pause();
+                    pendingVideo = video;
+                    showAd({
+                        onFinish: () => {
+                            video.dataset.adshown = '1';
+                            video.play();
+                        },
+                        skippable: true,
+                        adType: 'preroll'
+                    });
+                } else {
+                    // Pause all other videos
+                    videos.forEach(v => {
+                        if (v !== video) v.pause();
+                    });
+                }
+            });
+
+            // Reset adshown when video ends
+            video.addEventListener('ended', function() {
+                video.dataset.adshown = '';
+            });
+
+            // Intercept pause/exit for exit ad
+            video.addEventListener('pause', function(e) {
+                // If user paused before video ended, show exit ad
+                if (!adPlaying && !video.ended && video.currentTime > 1) {
+                    // Prevent repeated ads on pause
+                    if (!video.dataset.exitadshown) {
+                        video.dataset.exitadshown = '1';
+                        showAd({
+                            onFinish: () => {
+                                video.dataset.exitadshown = '';
+                            },
+                            skippable: true,
+                            adType: 'exit'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Sidebar drawer toggle
+        function toggleDrawer() {
+            const drawer = document.getElementById('drawer');
+            drawer.classList.toggle('open');
+        }
+
+        // Category filter function
+        function filterVideos(category) {
+            const cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            lastSearchQuery = '';
+        }
+
+        // Search function
+        function searchVideos(keyword) {
+            const cards = document.querySelectorAll('.video-card');
+            keyword = keyword.toLowerCase();
+            cards.forEach(card => {
+                const title = card.querySelector('p').textContent.toLowerCase();
+                card.style.display = title.includes(keyword) ? 'block' : 'none';
+            });
+            lastSearchQuery = keyword;
+        }
+    });
+
+    // Interstitial ad on navigation (category/search)
+    function interceptAction(actionFn, isSearch = false) {
+        return function(...args) {
+            if (adPlaying) return;
+            // For search, skip ad gating
+            if (isSearch) {
+                actionFn(...args);
+                return;
+            }
+            showAd({
+                onFinish: () => {
+                    actionFn(...args);
+                },
+                skippable: true,
+                adType: 'exit'
+            });
+        };
+    }
+
+    // Intercept filterVideos and searchVideos for interstitial ad
+    window.filterVideos = interceptAction(filterVideosOriginal, false);
+    window.searchVideos = interceptAction(searchVideosOriginal, true);
+    // --- Drawer open/close ---
+        function toggleDrawer() {
+            document.getElementById('drawer').classList.toggle('open');
+        }
+
+        // --- Filter by category ---
+        function filterVideosOriginal(category) {
+            const cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.dataset.category === category ? 'block' : 'none';
+                }
+            });
+            toggleDrawer();
+            document.getElementById('search').value = '';
+        }
+
+        // --- Search by title ---
+        function searchVideosOriginal(query) {
+            const cards = document.querySelectorAll('.video-card');
+            const q = query.trim().toLowerCase();
+            cards.forEach(card => {
+                const title = card.textContent.toLowerCase();
+                card.style.display = title.includes(q) ? 'block' : 'none';
+            });
+        }
+
+        // --- Close drawer on outside click ---
+        document.addEventListener('click', function(e) {
+            const drawer = document.getElementById('drawer');
+            if (drawer.classList.contains('open')) {
+                if (!drawer.contains(e.target) && !e.target.classList.contains('drawer-toggle')) {
+                    drawer.classList.remove('open');
+                }
+            }
+        });
+
+        // --- Keyboard accessibility for drawer ---
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('drawer').classList.remove('open');
+            }
+        });
+
+        // --- Only one video plays at a time, with pre-roll ad ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('.video-card video');
+            videos.forEach(video => {
+                // Prevent direct play
+                video.addEventListener('play', function onPlay(e) {
+                    if (adPlaying) {
+                        video.pause();
+                        return;
+                    }
+                    if (!video.dataset.adshown) {
+                        e.preventDefault();
+                        video.pause();
+                        pendingVideo = video;
+                        showAd({
+                            onFinish: () => {
+                                video.dataset.adshown = '1';
+                                video.play();
+                            },
+                            skippable: true,
+                            adType: 'preroll'
+                        });
+                    } else {
+                        // Pause all other videos
+                        videos.forEach(v => {
+                            if (v !== video) v.pause();
+                        });
+                    }
+                });
+
+                // Reset adshown when video ends
+                video.addEventListener('ended', function() {
+                    video.dataset.adshown = '';
+                });
+
+                // Intercept pause/exit for exit ad
+                video.addEventListener('pause', function(e) {
+                    // If user paused before video ended, show exit ad
+                    if (!adPlaying && !video.ended && video.currentTime > 1) {
+                        // Prevent repeated ads on pause
+                        if (!video.dataset.exitadshown) {
+                            video.dataset.exitadshown = '1';
+                            showAd({
+                                onFinish: () => {
+                                    video.dataset.exitadshown = '';
+                                },
+                                skippable: true,
+                                adType: 'exit'
+                            });
+                        }
+                    }
+                });
+            });
+
+            
+  // Sidebar drawer toggle
+  function toggleDrawer() {
+    const drawer = document.getElementById('drawer');
+    drawer.classList.toggle('open');
+  }
+
+  // Category filter function
+  function filterVideos(category) {
+    const cards = document.querySelectorAll('.video-card');
+    cards.forEach(card => {
+      if (category === 'all' || card.dataset.category === category) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Search function
+  function searchVideos(keyword) {
+    const cards = document.querySelectorAll('.video-card');
+    keyword = keyword.toLowerCase();
+    cards.forEach(card => {
+      const title = card.querySelector('p').textContent.toLowerCase();
+      card.style.display = title.includes(keyword) ? 'block' : 'none';
+    });
+  }
+            });
+
+            // Interstitial ad on navigation (category/search)
+            function interceptAction(actionFn) {
+                return function(...args) {
+                    if (adPlaying) return;
+                    showAd({
+                        onFinish: () => {
+                            actionFn(...args);
+                        },
+                        skippable: true,
+                        adType: 'exit'
+                    });
+                };
+            }
+
+            // Intercept filterVideos and searchVideos for interstitial ad
+            window.filterVideos = interceptAction(filterVideosOriginal);
+            window.searchVideos = interceptAction(searchVideosOriginal);
+
+    </script>
+</body>
+</html>
