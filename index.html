@@ -220,13 +220,22 @@
     </div>
     <main class="video-gallery" id="videoGallery">
         <!-- Sample 7 videos with category data -->
-        <article class="video-card" data-category="Thailand">
-            <video src="images/tai/Video1.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
-            <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
-                Lesson 01 (Thailand)
-                <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
-            </p>
-        </article>
+       <article class="video-card" data-category="Thailand" style="max-width: 100%; margin-bottom: 1rem;">
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+        <iframe 
+            src="https://www.youtube.com/embed/8pvXPrwghaQ?rel=0&showinfo=0" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
+        Lesson 01 (Thailand)
+        <span style="display:inline-block; background:#ffb6c1; color:#fff; border-radius:8px; font-size:0.9rem; padding:2px 8px; margin-left:8px;">HD</span>
+    </p>
+</article>
+
         <article class="video-card" data-category="Thailand">
             <video src="images/tai/Video2.mp4" controls  style="background:#ffe0e9; border-radius:10px; width:100%;"></video>
             <p style="font-weight:bold; color:#d72660; font-size:1.1rem; margin:0.5rem 0 0;">
@@ -770,3 +779,4 @@
     </script>
 </body>
 </html>
+
